@@ -1,11 +1,11 @@
-﻿using System;
+using System;
 using System.IO;
 using System.Net.Mail;
 
 public class MailUtil
 {
     /// <summary>
-    /// 一个同步SMTP发送邮件的接口，正式版本不开放
+    /// 一个同步SMTP发送邮件的接口
     /// </summary>
     /// <param name="senderAddress">邮件发送者地址，例如xxx@163.com</param>
     /// <param name="recvAddress">邮件接收者地址（可以支持多个，通过分号隔开），例如yyy@163.com</param>
@@ -19,8 +19,11 @@ public class MailUtil
     /// <returns></returns>
     public static bool SendEmail(string senderAddress, string recvAddress, string copyTo, string subject, string body, string attachments, string username, string password, string smtpServer)
     {
-        var message = new MailMessage(senderAddress, recvAddress, subject, body);
+        var message = new MailMessage();
+        message.Subject = subject;
+        message.Body = body;
         message.BodyEncoding = System.Text.Encoding.UTF8;
+        message.From = new MailAddress(senderAddress);
 
         if (!string.IsNullOrEmpty(recvAddress))
         {
